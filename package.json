@@ -4,7 +4,7 @@
   "description": "Frogger clone project for Shangri-LA show.",
   "private": true,
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode=production",
     "start": "webpack-dev-server --open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
