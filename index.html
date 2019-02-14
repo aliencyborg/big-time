@@ -3,10 +3,27 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <audio id="theme"></audio>
   </head>
   <body>
     <div id="game_div">
       <canvas id="game" height="565" width="399"></canvas>
+    </div>
+    <div id="buttons">
+      <div class="btn-row">
+        <button id="upButton">UP</button>
+      </div>
+      <div class="btn-row">
+        <button id="leftButton">LEFT</button>
+        <button id="rightButton">RIGHT</button>
+      </div>
+      <div class="btn-row">
+        <button id="downButton">DOWN</button>
+      </div>
+      <div class="btn-row">
+        <button id="startButton">start</button>
+        <button id="muteButton">mute</button>
+      </div>
     </div>
   </body>
 </html>

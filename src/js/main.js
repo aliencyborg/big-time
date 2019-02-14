@@ -1,9 +1,7 @@
-/* global $ */
-
 import bigTimeSprites from '../images/bigtime_sprites.png'
 import deadGil from '../images/dead_gil.png'
-import bigTimeMusic from '../audio/big_time.mp3'
-;(function() {
+
+$(() => {
   /* Local Vars:
    *   models : Object[] --
    *   lengths : Object[] --
@@ -33,32 +31,39 @@ import bigTimeMusic from '../audio/big_time.mp3'
   let logs
   let sprites
 
+  function onStartButtonClick() {
+    startGame()
+    $('#startButton').prop('disabled', true)
+  }
+
+  $('#startButton').click(onStartButtonClick)
+
   function startGame() {
     game = new Game()
+
     $(document).keydown(function(e) {
       var arrowKey = getArrowKey(e)
       if (arrowKey) {
         e.preventDefault()
       }
-      if (game.dead === -1 && game.lives > 0) {
-        if (arrowKey === 'u') {
-          up()
-        } else if (arrowKey === 'd') {
-          down()
-        } else if (arrowKey === 'l') {
-          left()
-        } else if (arrowKey === 'r') {
-          right()
-        }
+      if (arrowKey === 'u') {
+        moveGil(up)
+      } else if (arrowKey === 'd') {
+        moveGil(down)
+      } else if (arrowKey === 'l') {
+        moveGil(left)
+      } else if (arrowKey === 'r') {
+        moveGil(right)
       }
     })
+
+    $('#upButton').click(() => moveGil(up))
+    $('#leftButton').click(() => moveGil(left))
+    $('#rightButton').click(() => moveGil(right))
+    $('#downButton').click(() => moveGil(down))
+
     const board = document.getElementById('game')
     context = board.getContext('2d')
-
-    const theme = document.createElement('audio')
-    theme.setAttribute('src', bigTimeMusic)
-    theme.setAttribute('loop', 'true')
-    theme.play()
 
     sprites = new Image()
     deadsprite = new Image()
@@ -303,6 +308,12 @@ import bigTimeMusic from '../audio/big_time.mp3'
   }
 
   // move
+  function moveGil(dirFun) {
+    if (game.dead === -1 && game.lives > 0) {
+      dirFun()
+    }
+  }
+
   var up = function() {
     if (boundsCheck(game.posX, game.posY - 30)) {
       game.posY -= 30
@@ -784,6 +795,4 @@ import bigTimeMusic from '../audio/big_time.mp3'
       this.win = -1
     }
   }
-
-  startGame()
-})()
+})
