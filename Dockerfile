@@ -1,3 +1,16 @@
 FROM nginx
-COPY dist /usr/share/nginx/html
-COPY nginx-default.conf /etc/nginx/conf.d/default.conf
+
+RUN apt-get -y update
+RUN apt-get -y install apt-utils build-essential python wget
+RUN wget -qO- https://deb.nodesource.com/setup_10.x > node_setup.sh
+RUN bash node_setup.sh
+RUN apt-get -y install nodejs
+
+RUN mkdir /app
+COPY . /app
+RUN cd /app && npm install
+RUN cd /app && npm run build
+RUN mv /app/dist/* /usr/share/nginx/html/
+
+WORKDIR /usr/share/nginx/html
+
