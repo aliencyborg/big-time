@@ -1,4 +1,4 @@
-#Big Time#
+**Big Time**
 
 A working clone of Frogger playable in the browser, implemented with JavaScript.
 
