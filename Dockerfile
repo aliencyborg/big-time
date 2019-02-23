@@ -8,7 +8,7 @@ RUN apt-get -y install nodejs
 
 RUN mkdir /app
 COPY package*.json /app/
-RUN cd /app && npm install
+RUN cd /app && npm ci
 COPY . /app
 RUN cd /app && npm run build
 RUN mv /app/dist/* /usr/share/nginx/html/
