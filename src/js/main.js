@@ -1,6 +1,11 @@
 import bigTimeSprites from '../images/bigtime_sprites.png'
 import deadGil from '../images/dead_gil.png'
 
+const GREEN_2 = '#00EE00'
+const BLACK = '#000000'
+const MIDNIGHT_BLUE = '#191970'
+const WHITE = '#FFFFFF'
+
 $(() => {
   /* Local Vars:
    *   models : Object[] --
@@ -115,9 +120,9 @@ $(() => {
 
   // drawer functions: bg, info, gil, cars, logs, wins
   var drawBg = function() {
-    context.fillStyle = '#191970'
+    context.fillStyle = BLACK
     context.fillRect(0, 0, 399, 284)
-    context.fillStyle = '#000000'
+    context.fillStyle = BLACK
     context.fillRect(0, 284, 399, 283)
     context.drawImage(sprites, 0, 0, 399, 113, 0, 0, 399, 113)
     context.drawImage(sprites, 0, 119, 399, 34, 0, 283, 399, 34)
@@ -127,7 +132,7 @@ $(() => {
   var drawInfo = function() {
     drawLives()
     context.font = 'bold 14pt arial'
-    context.fillStyle = '#00EE00'
+    context.fillStyle = GREEN_2
     context.fillText('Level ', 74, 545)
     drawLevel()
     context.font = 'bold 10pt arial'
@@ -150,13 +155,13 @@ $(() => {
 
   var drawLevel = function() {
     context.font = 'bold 15pt arial'
-    context.fillStyle = '#00EE00'
+    context.fillStyle = GREEN_2
     context.fillText(game.level, 131, 545)
   }
 
   var drawScore = function() {
     context.font = 'bold 10pt arial'
-    context.fillStyle = '#00EE00'
+    context.fillStyle = GREEN_2
     context.fillText(game.score, 49, 560)
     if (window.localStorage['highscore']) {
       highscore = localStorage['highscore']
@@ -295,13 +300,13 @@ $(() => {
 
   var gameOver = function() {
     context.font = 'bold 72pt arial'
-    context.fillStyle = '#FFFFFF'
+    context.fillStyle = WHITE
     context.fillText('GAME', 60, 150)
     context.fillText('OVER', 60, 300)
     if (game.score >= highscore) {
       localStorage['highscore'] = game.score
       context.font = 'bold 48pt arial'
-      context.fillStyle = '#00EE00'
+      context.fillStyle = GREEN_2
       context.fillText('YOU GOT A', 20, 380)
       context.fillText('HIGHSCORE', 6, 460)
     }
