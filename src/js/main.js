@@ -2,7 +2,7 @@ import bigTimeSprites from '../images/bigtime_sprites.png'
 import deadGil from '../images/dead_gil.png'
 
 const BLACK = '#000000'
-const BROWN = '#A0522D'
+const BROWN = '#FBD38D'
 const GREEN_2 = '#00EE00'
 const MIDNIGHT_BLUE = '#191970'
 const WHITE = '#FFFFFF'

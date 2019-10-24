@@ -11,24 +11,36 @@
       <div class="border-yellow-800 border-2 bg-yellow-800 sm:my-8">
         <canvas id="game" height="565" width="399" class="bg-contain bg-no-repeat"></canvas>
       </div>
-      <div class="flex text-sm bg-blue-200 w-full border-teal-400 border-2 h-full sm:h-auto sm:text-base">
-        <div class="flex flex-shrink justify-center pl-6">
-          <button id="startButton" class="">start</button>
+      <div class="flex text-sm bg-blue-200 w-full sm:w-1/2 lg:w-1/3 border-teal-400 border-2 h-40 sm:text-base">
+        <div class="flex-shrink ml-2 mb-6 flex flex-col justify-end">
+          <div class="bg-red-400 text-black font-bold py-auto px-4 rounded">
+            <button id="startButton" class="">start</button>
+          </div>
         </div>
         <div class="flex flex-col flex-1 justify-around">
           <div class="flex justify-center">
-            <button id="upButton">UP</button>
+            <div class="bg-blue-500 text-white font-bold py-auto px-4 rounded">
+              <button id="upButton">UP</button>
+            </div>
           </div>
           <div class="flex justify-around content-between">
-            <button id="leftButton">LEFT</button>
-            <button id="rightButton">RIGHT</button>
+            <div class="bg-blue-500 text-white font-bold py-auto px-4 rounded">
+              <button id="leftButton">LEFT</button>
+            </div>
+            <div class="bg-blue-500 text-white font-bold py-auto px-4 rounded">
+              <button id="rightButton">RIGHT</button>
+            </div>
           </div>
           <div class="flex justify-center">
-            <button id="downButton">DOWN</button>
+            <div class="bg-blue-500 text-white font-bold py-auto px-4 rounded">
+              <button id="downButton">DOWN</button>
+            </div>
           </div>
         </div>
-        <div class="flex-shrink flex justify-center pr-6">
-          <button id="muteButton">mute</button>
+        <div class="flex-shrink mr-2 mb-6 flex flex-col justify-end">
+          <div class="bg-yellow-500 text-black font-bold py-auto px-4 rounded">
+            <button id="muteButton">mute</button>
+          </div>
         </div>
       </div>
     </div>
