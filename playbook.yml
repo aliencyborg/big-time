@@ -1,0 +1,78 @@
+---
+- name: web application deploy
+  hosts: east
+  remote_user: luis
+  vars:
+    workdir: /home/luis/code/src/github.com/aliencyborg/big-time
+  tasks:
+    - name: ensure code/src/github.com/aliencyborg directory is present
+      file:
+        path: /home/luis/code/src/github.com/aliencyborg
+        state: directory
+      tags: [ prod, stage ]
+
+    ## STAGE ##
+
+    - name: clone or update big-time repository (stage)
+      git:
+        accept_hostkey: yes
+        dest: "{{ workdir }}"
+        key_file: /home/luis/.ssh/id_rsa
+        repo: 'git@github.com:aliencyborg/big-time.git'
+        update: yes
+        version: stage
+      tags: stage
+
+    - name: build docker image (stage)
+      docker_image:
+        force_source: yes
+        name: big-time
+        source: build
+        tag: stage
+        build:
+          path: "{{ workdir }}"
+          pull: no
+      tags: stage
+
+    - name: run docker container (stage)
+      docker_container:
+        image: big-time:stage
+        name: big-time-stage
+        state: started
+        env:
+          LETSENCRYPT_HOST: 'bigtime\.aliencyb.org'
+          VIRTUAL_HOST: 'bigtime\.aliencyb.org'
+      tags: stage
+
+    ## PRODUCTION ##
+
+    - name: clone or update big-time repository (prod)
+      git:
+        accept_hostkey: yes
+        dest: "{{ workdir }}"
+        key_file: /home/luis/.ssh/id_rsa
+        repo: 'git@github.com:aliencyborg/big-time.git'
+        update: yes
+        version: prod
+      tags: prod
+
+    - name: build docker image (prod)
+      docker_image:
+        force_source: yes
+        name: big-time
+        source: build
+        tag: prod
+        build:
+          path: "{{ workdir }}"
+          pull: no
+      tags: prod
+
+    - name: run docker container (prod)
+      docker_container:
+        image: big-time:prod
+        name: big-time
+        state: started
+        env:
+          LETSENCRYPT_HOST: 'bigtime.shangri-lashow.com'
+          VIRTUAL_HOST: 'bigtime.shangri-lashow.com'
+      tags: prod
