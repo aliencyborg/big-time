@@ -1,8 +1,9 @@
 import bigTimeSprites from '../images/bigtime_sprites.png'
 import deadGil from '../images/dead_gil.png'
 
-const GREEN_2 = '#00EE00'
 const BLACK = '#000000'
+const BROWN = '#A0522D'
+const GREEN_2 = '#00EE00'
 const MIDNIGHT_BLUE = '#191970'
 const WHITE = '#FFFFFF'
 
@@ -120,10 +121,12 @@ $(() => {
 
   // drawer functions: bg, info, gil, cars, logs, wins
   var drawBg = function() {
+    context.fillStyle = MIDNIGHT_BLUE
+    context.fillRect(0, 0, 399, 70)
+    context.fillStyle = BROWN
+    context.fillRect(0, 71, 399, 287)
     context.fillStyle = BLACK
-    context.fillRect(0, 0, 399, 284)
-    context.fillStyle = BLACK
-    context.fillRect(0, 284, 399, 283)
+    context.fillRect(0, 288, 399, 565)
     context.drawImage(sprites, 0, 0, 399, 113, 0, 0, 399, 113)
     context.drawImage(sprites, 0, 119, 399, 34, 0, 283, 399, 34)
     context.drawImage(sprites, 0, 119, 399, 34, 0, 495, 399, 34)

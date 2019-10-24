@@ -1,16 +1,7 @@
-#game_div{
-  text-align: center;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-canvas {
-  background-color: #cb630a;
-  padding: 5px;
-  margin: 10px;
-  border-width: 60px;
-  border-color: #010101;
-  border-style: solid;
-}
-
-body {
-  background-color: #128138;
+#game {
+  background-image: url("../images/title-card.png");
 }
