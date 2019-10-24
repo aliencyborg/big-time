@@ -1,13 +1,13 @@
 ---
 - name: web application deploy
-  hosts: east
-  remote_user: luis
+  hosts: west
+  remote_user: hank
   vars:
-    workdir: /home/luis/code/src/github.com/aliencyborg/big-time
+    workdir: /home/hank/code/src/github.com/aliencyborg/big-time
   tasks:
     - name: ensure code/src/github.com/aliencyborg directory is present
       file:
-        path: /home/luis/code/src/github.com/aliencyborg
+        path: /home/hank/code/src/github.com/aliencyborg
         state: directory
       tags: [ prod, stage ]
 
@@ -17,10 +17,11 @@
       git:
         accept_hostkey: yes
         dest: "{{ workdir }}"
-        key_file: /home/luis/.ssh/id_rsa
+        key_file: /home/hank/.ssh/id_rsa
         repo: 'git@github.com:aliencyborg/big-time.git'
         update: yes
         version: stage
+      retries: 2
       tags: stage
 
     - name: build docker image (stage)
@@ -40,8 +41,8 @@
         name: big-time-stage
         state: started
         env:
-          LETSENCRYPT_HOST: 'bigtime\.aliencyb.org'
-          VIRTUAL_HOST: 'bigtime\.aliencyb.org'
+          LETSENCRYPT_HOST: 'bigtime.aliencyb.org'
+          VIRTUAL_HOST: 'bigtime.aliencyb.org'
       tags: stage
 
     ## PRODUCTION ##
@@ -50,10 +51,11 @@
       git:
         accept_hostkey: yes
         dest: "{{ workdir }}"
-        key_file: /home/luis/.ssh/id_rsa
+        key_file: /home/hank/.ssh/id_rsa
         repo: 'git@github.com:aliencyborg/big-time.git'
         update: yes
         version: prod
+      retries: 2
       tags: prod
 
     - name: build docker image (prod)
