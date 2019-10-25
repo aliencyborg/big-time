@@ -38,14 +38,18 @@ $(() => {
   let sprites
 
   function onStartButtonClick() {
-    startGame()
-    $('#startButton').prop('disabled', true)
+    if (game && game.restart) {
+      game.restart()
+    } else {
+      startGame()
+    }
   }
 
   $('#startButton').click(onStartButtonClick)
 
   function startGame() {
     game = new Game()
+    $('#startButton')[0].innerHTML = "restart"
 
     $(document).keydown(function(e) {
       var arrowKey = getArrowKey(e)
@@ -779,28 +783,45 @@ $(() => {
   }
 
   var Game = function() {
-    this.lives = 5
+    this.current = -1
+    this.dead = -1
     this.extra = 0
+    this.facing = 'u'
+    this.highest = -1
     this.level = 1
-    this.score = 0
+    this.lives = 5
+    this.log = -1
     this.posX = 187
     this.posY = 503
-    this.facing = 'u'
-    this.log = -1
-    this.current = -1
-    this.highest = -1
-    this.dead = -1
+    this.score = 0
     this.win = -1
     this.won = [false, false, false, false, false]
+
     this.reset = () => {
-      this.posY = 503
-      this.posX = 187
-      this.facing = 'u'
-      this.log = -1
       this.current = -1
-      this.highest = -1
       this.dead = -1
+      this.facing = 'u'
+      this.highest = -1
+      this.log = -1
+      this.posX = 187
+      this.posY = 503
       this.win = -1
+    }
+
+    this.restart = () => {
+      this.current = -1
+      this.dead = -1
+      this.extra = 0
+      this.facing = 'u'
+      this.highest = -1
+      this.level = 1
+      this.lives = 5
+      this.log = -1
+      this.posX = 187
+      this.posY = 503
+      this.score = 0
+      this.win = -1
+      this.won = [false, false, false, false, false]
     }
   }
 })
