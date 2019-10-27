@@ -1,5 +1,6 @@
 import bigTimeSprites from '../images/bigtime_sprites.png'
 import deadGil from '../images/dead_gil.png'
+import Score from './score'
 
 const BLACK = '#000000'
 const BROWN = '#FBD38D'
@@ -33,7 +34,8 @@ $(() => {
   let context
   let deadsprite
   let game
-  let highscore
+  let highscore = 0
+  let highscoreUser = ''
   let logs
   let sprites
 
@@ -47,8 +49,19 @@ $(() => {
 
   $('#startButton').click(onStartButtonClick)
 
-  function startGame() {
+  async function initHighScores() {
+    const scores = await Score.getAllScores()
+
+    if (scores.length) {
+      highscore = parseInt(scores[0].value, 10)
+      highscoreUser = scores[0].username
+    }
+  }
+
+  async function startGame() {
     game = new Game()
+    await initHighScores()
+
     $('#startButton')[0].innerHTML = "restart"
 
     $(document).keydown(function(e) {
@@ -80,27 +93,29 @@ $(() => {
     sprites.src = bigTimeSprites
     deadsprite.src = deadGil
 
-    sprites.onload = function() {
+    sprites.onload = async function() {
       drawBg()
       drawInfo()
       makeCars()
       makeLogs()
       drawGil()
-      setInterval(gameLoop, 50)
+      setInterval(await gameLoop, 50)
     }
   }
 
   var gameLoop = function() {
-    drawBg()
-    drawInfo()
-    drawCars()
-    drawLogs()
-    drawWins()
-    if (game.lives > 0) {
-      drawGil()
-    } else {
-      gameOver()
-    }
+      drawBg()
+      drawInfo()
+      drawCars()
+      drawLogs()
+      drawWins()
+      if (game.lives > 0) {
+        drawGil()
+      } else {
+        if (game.gameOver === 0) {
+          gameOver()
+        }
+      }
   }
 
   var getArrowKey = function(e) {
@@ -140,16 +155,16 @@ $(() => {
     drawLives()
     context.font = 'bold 14pt arial'
     context.fillStyle = GREEN_2
-    context.fillText('Level ', 74, 545)
+    context.fillText('Level ', 100, 545)
     drawLevel()
     context.font = 'bold 10pt arial'
-    context.fillText('Score: ', 4, 560)
-    context.fillText('Highscore: ', 200, 560)
+    context.fillText('Score: ', 25, 560)
+    context.fillText('Highscore: ', 160, 560)
     drawScore()
   }
 
   var drawLives = function() {
-    var x = 4
+    var x = 25
     var y = 532
     if (game.score - game.extra * 10000 >= 10000 && game.lives < 4) {
       game.extra++
@@ -163,17 +178,16 @@ $(() => {
   var drawLevel = function() {
     context.font = 'bold 15pt arial'
     context.fillStyle = GREEN_2
-    context.fillText(game.level, 131, 545)
+    context.fillText(game.level, 155, 545)
   }
 
   var drawScore = function() {
+    const highscoreAndUsername = `${highscore}   ${highscoreUser}`
+
     context.font = 'bold 10pt arial'
     context.fillStyle = GREEN_2
-    context.fillText(game.score, 49, 560)
-    if (window.localStorage['highscore']) {
-      highscore = localStorage['highscore']
-    } else highscore = 0
-    context.fillText(highscore, 272, 560)
+    context.fillText(game.score, 85, 560)
+    context.fillText(highscoreAndUsername, 240, 560)
   }
 
   var drawGil = function() {
@@ -305,18 +319,26 @@ $(() => {
     }
   }
 
-  var gameOver = function() {
-    context.font = 'bold 72pt arial'
-    context.fillStyle = WHITE
-    context.fillText('GAME', 60, 150)
-    context.fillText('OVER', 60, 300)
-    if (game.score >= highscore) {
-      localStorage['highscore'] = game.score
+  var gameOver = async function() {
+    game.gameOver = 1
+    const topFive = await Score.isTopFive(game.score)
+
+    if (topFive) {
       context.font = 'bold 48pt arial'
       context.fillStyle = GREEN_2
       context.fillText('YOU GOT A', 20, 380)
       context.fillText('HIGHSCORE', 6, 460)
+      const username = window.prompt(`You got a high score of ${game.score}!\n Please enter your name:`)
+      return Score.submitScore(username, game.score)
+    } else {
+      context.font = 'bold 72pt arial'
+      context.fillStyle = WHITE
+      context.fillText('GAME', 60, 150)
+      context.fillText('OVER', 60, 300)
     }
+  }
+
+  const checkHighScores = async function() {
   }
 
   // move
@@ -787,6 +809,7 @@ $(() => {
     this.dead = -1
     this.extra = 0
     this.facing = 'u'
+    this.gameOver = 0
     this.highest = -1
     this.level = 1
     this.lives = 5
@@ -809,10 +832,12 @@ $(() => {
     }
 
     this.restart = () => {
+      initHighScores()
       this.current = -1
       this.dead = -1
       this.extra = 0
       this.facing = 'u'
+      this.gameOver = 0
       this.highest = -1
       this.level = 1
       this.lives = 5

@@ -33,6 +33,8 @@
         build:
           path: "{{ workdir }}"
           pull: no
+          args:
+            API_HOST: https://api.bigtime.aliencyb.org/api
       tags: stage
 
     - name: run docker container (stage)
@@ -67,6 +69,8 @@
         build:
           path: "{{ workdir }}"
           pull: no
+          args:
+            API_HOST: https://api.bigtime.shangri-lashow.com/api
       tags: prod
 
     - name: run docker container (prod)
