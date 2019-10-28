@@ -8,6 +8,10 @@ export default {
     return data
   },
 
+  async getHighScore() {
+    return axios.get(`${hostUrl}/scores?limit=1`)
+  },
+
   async getTopFive() {
     return axios.get(`${hostUrl}/scores?limit=5`)
   },

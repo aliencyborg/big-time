@@ -3,7 +3,7 @@ const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { DefinePlugin } = require('webpack')
 
-module.exports = env => {
+module.exports = (env = {}) => {
   const apiHost = env.API_HOST || 'http://localhost:4040/api'
 
   return {

@@ -1,5 +1,5 @@
 import bigTimeSprites from '../images/bigtime_sprites.png'
-import deadGil from '../images/dead_gil.png'
+import clapper from '../images/clapper.png'
 import Score from './score'
 
 const BLACK = '#000000'
@@ -50,11 +50,11 @@ $(() => {
   $('#startButton').click(onStartButtonClick)
 
   async function initHighScores() {
-    const scores = await Score.getAllScores()
+    const { data } = await Score.getHighScore()
 
-    if (scores.length) {
-      highscore = parseInt(scores[0].value, 10)
-      highscoreUser = scores[0].username
+    if (data.length) {
+      highscore = parseInt(data[0].value, 10)
+      highscoreUser = data[0].username
     }
   }
 
@@ -91,7 +91,7 @@ $(() => {
     sprites = new Image()
     deadsprite = new Image()
     sprites.src = bigTimeSprites
-    deadsprite.src = deadGil
+    deadsprite.src = clapper
 
     sprites.onload = async function() {
       drawBg()
