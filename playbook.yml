@@ -71,7 +71,7 @@
           path: "{{ workdir }}"
           pull: no
           args:
-            API_HOST: "https://api.bigtime.shangri-lashow.com"
+            API_HOST: "https://api.bigtime.shangri-lashow.com/api"
       tags: prod
 
     - name: run docker container (prod)
